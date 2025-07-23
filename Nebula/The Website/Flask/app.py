@@ -8,13 +8,10 @@ if api_path not in sys.path:
 
 from chatbot import LocalAIChatbot
 
-model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../The AI/v0/Models/llama2.gguf'))
-if not os.path.isfile(model_path):
-    raise FileNotFoundError(f"Model file not found: {model_path}")
-
-model_url="https://onedrive.live.com/personal/2642cb790e4d089e/_layouts/15/download.aspx?UniqueId=63ebabb3%2D8a2a%2D4a6c%2D9939%2Dba620551acf8"
-
-chatbot = LocalAIChatbot(model_path=model_path, model_url=model_url)
+chatbot = LocalAIChatbot(
+    repo_id="DavidAU/Llama-3.2-8X3B-MOE-Dark-Champion-Instruct-uncensored-abliterated-18.4B-GGUF",
+	filename="L3.2-8X3B-MOE-Dark-Champion-Inst-18.4B-uncen-ablit_D_AU-Q4_k_m.gguf",
+)
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
@@ -37,4 +34,5 @@ def sendquery():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
