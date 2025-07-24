@@ -8,9 +8,14 @@ if api_path not in sys.path:
 
 from chatbot import LocalAIChatbot
 
+# chatbot = LocalAIChatbot(
+#     repo_id="DavidAU/Llama-3.2-8X3B-MOE-Dark-Champion-Instruct-uncensored-abliterated-18.4B-GGUF",
+# 	filename="L3.2-8X3B-MOE-Dark-Champion-Inst-18.4B-uncen-ablit_D_AU-Q4_k_m.gguf",
+# )
+
 chatbot = LocalAIChatbot(
-    repo_id="DavidAU/Llama-3.2-8X3B-MOE-Dark-Champion-Instruct-uncensored-abliterated-18.4B-GGUF",
-	filename="L3.2-8X3B-MOE-Dark-Champion-Inst-18.4B-uncen-ablit_D_AU-Q4_k_m.gguf",
+    repo_id="TheBloke/Luna-AI-Llama2-Uncensored-GGUF",
+	filename="luna-ai-llama2-uncensored.Q2_K.gguf",
 )
 app = Flask(__name__)
 
