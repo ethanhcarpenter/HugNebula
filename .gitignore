@@ -362,4 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+/Nebula/The AI/v0/Models/llama3.gguf
 /Nebula/The AI/v0/Models/llama2.gguf

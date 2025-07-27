@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Home</title>
-</head>
-<body>
-    <button id="goToChat">Go to Chat Page</button>
 
-    <script>
-    document.getElementById('goToChat').addEventListener('click', () => {
-      window.location.href = '/chat';
-    });
-    </script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyberbyte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet" />
+  <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+</head>
+
+<body style="overflow: hidden;">
+  <nav>
+    <div class="logo">Cyberbyte - UK 637</div>
+    <div class="nav-right">
+      <ul class="nav-links" role="list">
+        <li><a href="#" id="home-link" class="active">Home</a></li>
+        <li><a href="#" id="members-link">Members</a></li>
+        <li><a href="#" id="about-link">All about FTC</a></li>
+        <li><a href="#" id="nebula-ai-link">Nebula AI</a></li>
+        <li><a href="#" id="contact-link">Contact</a></li>
+      </ul>
+      <div class="settings-btn" aria-label="Settings" title="Settings" tabindex="0" role="button">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="settings-panel" aria-label="Settings Panel" role="region" aria-live="polite">
+    <h3>Settings</h3>
+    <label for="darkModeToggle">
+      <input type="checkbox" id="darkModeToggle" />
+      Dark Mode
+    </label>
+    <label>
+      <input type="checkbox" disabled />
+      Enable Animations
+    </label>
+  </div>
+
+  <iframe id="content-frame" src="{{ url_for('home') }}" style="width: 100%; height: 99vh; border: none;"
+    frameborder="0"></iframe>
+
 </body>
+
 </html>

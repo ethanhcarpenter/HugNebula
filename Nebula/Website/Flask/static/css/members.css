@@ -1,0 +1,296 @@
+/* Reset and shared styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition-property: background-color, color, box-shadow, border-color;
+    transition-duration: 0.4s;
+    transition-timing-function: ease;
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #6418a6, #c3c3ec);
+    color: white;
+    scroll-behavior: smooth;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.light-mode {
+    background: #f4f4f4;
+    color: #222;
+}
+
+/* NAVIGATION */
+nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(20, 20, 30, 0.95);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    flex-wrap: wrap;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.light-mode nav {
+    background: rgba(240, 240, 255, 0.95);
+    color: #222;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.5s ease;
+}
+
+body.light-mode .logo {
+    color: #222;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-links li a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease, background-color 0.5s ease;
+}
+
+.nav-links li a:hover {
+    color: #fff;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+}
+
+/* Active Link Style */
+.nav-links li a.active {
+    color: #fff;
+    font-weight: 700;
+}
+
+.nav-links li a.active::after {
+    width: 100%;
+}
+
+body.light-mode .nav-links li a {
+    color: #222;
+}
+
+body.light-mode .nav-links li a::after {
+    background-color: #222;
+}
+
+body.light-mode .nav-links li a:hover {
+    color: #000;
+}
+
+/* Settings button */
+.settings-btn {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.settings-btn span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+}
+
+.settings-btn:hover span {
+    background-color: #782f9a;
+}
+
+body.light-mode .settings-btn span {
+    background-color: #222;
+}
+
+.settings-panel {
+    position: fixed;
+    top: 72px;
+    right: 20px;
+    background: #2b1a4d;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(120, 47, 154, 0.7);
+    width: 220px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease, background-color 0.5s ease, color 0.5s ease;
+    padding: 0 20px;
+    z-index: 1500;
+    color: white;
+    font-size: 0.95rem;
+    user-select: none;
+}
+
+.settings-panel.open {
+    max-height: 300px;
+    padding: 20px;
+}
+
+.settings-panel h3 {
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.settings-panel label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.settings-panel input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+body.light-mode .settings-panel {
+    background: #eee;
+    color: #222;
+    box-shadow: 0 4px 15px rgba(150, 150, 200, 0.5);
+}
+
+/* MAIN CONTENT */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 72px);
+    margin-top: 72px;
+    padding: 20px;
+}
+
+.content-box {
+    background: #000;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    width: 100%;
+    color: white;
+    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Light mode content-box style to match About page */
+body.light-mode .content-box {
+    background: #fefefe;
+    color: #222;
+    box-shadow: 0 8px 20px rgba(200, 200, 200, 0.4);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    color: white;
+    transition: color 0.5s ease;
+}
+
+/* Light mode heading color */
+body.light-mode h1 {
+    color: #222;
+}
+
+p,
+li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    transition: color 0.5s ease;
+}
+
+/* Light mode text color for paragraphs and list items */
+body.light-mode p,
+body.light-mode li {
+    color: #222;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-right {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .content-box {
+        padding: 25px;
+    }
+}  

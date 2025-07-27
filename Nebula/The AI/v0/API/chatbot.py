@@ -33,3 +33,6 @@ class LocalAIChatbot:
 
     def reset(self):
         self.chat_history = []
+
+    def getHistory(self):
+        return self.chat_history

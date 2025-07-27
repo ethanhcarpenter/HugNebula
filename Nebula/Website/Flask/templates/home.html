@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home - Cyberbyte</title>
+    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet" />
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Build, innovate and explore</h1>
+        <p>
+            We are an FTC team based in Stoke-on‑Trent, UK. We focus on making our own and others' FTC
+            experiences the best they can be.
+        </p>
+    </header>
+
+    <section>
+        <div class="cards">
+            <div class="card" id="engineering-card" tabindex="0" role="button" aria-expanded="false"
+                aria-controls="engineering-content">Engineering</div>
+            <div class="card">Outreach</div>
+            <div class="card">Coding</div>
+            <div class="card">Innovation</div>
+        </div>
+
+        <div id="engineering-content" tabindex="0" aria-hidden="true">
+            <div class="card" id="engineering-box">
+                <h2 style="margin-bottom: 15px;">Engineering at Cyberbyte</h2>
+                <p>
+                    Our engineering team focuses on designing, prototyping, and building the physical robot.
+                    From drivetrain architecture to efficient arm mechanisms, our engineers turn creative ideas
+                    into robust hardware ready for FTC competition.
+                </p>
+                <ul style="margin-top: 15px; list-style-type: disc; padding-left: 20px;">
+                    <li>CAD modeling in Onshaped</li>
+                    <li>Iterative prototyping & testing</li>
+                    <li>Collaborative decision making</li>
+                    <li>3D printing, CNC machining & more</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <footer>© 2025 Made with 💡 by Cyberbyte - UK 637</footer>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+/* Reset and transitions */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition-property: background-color, color, box-shadow, border-color;
+    transition-duration: 0.4s;
+    transition-timing-function: ease;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #6418a6, #c3c3ec);
+    color: white;
+    scroll-behavior: smooth;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    padding-top: 72px; /* Clearance below fixed navbar */
+}
+
+body.light-mode {
+    background: #f4f4f4;
+    color: #222;
+}
+
+/* Navbar */
+nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(20, 20, 30, 0.95);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+.element::-webkit-scrollbar {
+  display: none;
+}
+
+body.light-mode nav {
+    background: rgba(240, 240, 255, 0.95);
+    color: #222;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.5s ease;
+}
+
+body.light-mode .logo {
+    color: #222;
+}
+
+/* Main container */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 72px);
+    padding: 10px;
+}
+
+/* Content box */
+.container {
+    background: #000000cc; /* Slight transparency for layering */
+    padding: 30px 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    max-width: 600px;
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: fit-content;
+    height: 89vh;
+}
+
+/* Headings */
+#heading {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 5px;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+}
+
+.subtitle {
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+/* Chat box */
+.chat-box {
+    background: #1e0f3d;
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 0 6px 15px rgba(120, 47, 154, 0.7);
+    display: flex;
+    flex-direction: column;
+    height: 92%;
+
+}
+
+/* Chat messages area */
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    padding-right: 10px;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Chat form */
+.chat-form {
+    display: flex;
+    gap: 10px;
+}
+
+/* Input box */
+.chat-input {
+    flex-grow: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background-color: #3c1f7a;
+    color: white;
+    outline-offset: 2px;
+    outline-color: #782f9a;
+}
+.chat-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-reset-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.chat-reset-btn:hover {
+  background-color: #dc2626;
+}
+
+
+/* Send button */
+.chat-send-btn {
+    background-color: #6418a6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-send-btn:hover {
+    background-color: #782f9a;
+}
+
+/* Scrollbar for chat messages */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: #782f9a;
+    border-radius: 3px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px 15px;
+    }
+
+    #heading {
+        font-size: 2rem;
+    }
+
+    .chat-box {
+        height: 350px;
+        max-height: 350px;
+        padding: 12px 15px;
+    }
+}

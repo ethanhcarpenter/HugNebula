@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!userMsg) return;
 
             isTyping = true;
-            chatInput.disabled = true;
+            // Disable only submit button, not input
             chatForm.querySelector('button[type="submit"]').disabled = true;
 
             addMessage(userMsg, 'user');
@@ -54,13 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 removeTyping();
                 addMessage(data.answer[0] || 'No response', 'assistant');
-                //addMessage(data.answer[1] || 'No response', 'DEBUG');
             } catch (error) {
                 removeTyping();
                 addMessage('Error: Could not get response.', 'DEBUG');
             } finally {
                 isTyping = false;
-                chatInput.disabled = false;
+                // Re-enable submit button only
                 chatForm.querySelector('button[type="submit"]').disabled = false;
             }
         });
@@ -74,16 +73,43 @@ document.addEventListener('DOMContentLoaded', () => {
         msgDiv.style.borderRadius = '6px';
         msgDiv.style.maxWidth = '80%';
         msgDiv.style.wordBreak = 'break-word';
-        msgDiv.style.background = sender === 'user' ? '#e0e7ef' : '#d6f5e3';
-        if (sender === 'DEBUG') {msgDiv.style.background = '#e37373ff';}
-        if (sender === 'user') {msgDiv.style.background = '#e0e7ef';}
-        if (sender === 'assistant') { msgDiv.style.background = '#d6f5e3';}
-        msgDiv.style.alignSelf = sender === 'assistant' ? 'flex-end' : 'flex-start';
+
+        if (sender === 'user') {
+            msgDiv.style.background = '#3b82f6';  // strong blue
+            msgDiv.style.color = '#fff';          // white text
+            msgDiv.style.alignSelf = 'flex-start';
+        } else if (sender === 'assistant') {
+            msgDiv.style.background = '#10b981';  // strong green
+            msgDiv.style.color = '#fff';           // white text
+            msgDiv.style.alignSelf = 'flex-end';
+        } else if (sender === 'DEBUG') {
+            msgDiv.style.background = '#ef4444';  // bright red
+            msgDiv.style.color = '#fff';           // white text
+            msgDiv.style.alignSelf = 'center';
+        } else {
+            msgDiv.style.background = '#cccccc';  // fallback grey
+            msgDiv.style.color = '#000';
+            msgDiv.style.alignSelf = 'flex-start';
+        }
+
         chatMessages.appendChild(msgDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+    function clearChatMessages() {
+        while (chatMessages.firstChild) {
+            chatMessages.removeChild(chatMessages.firstChild);
+        }
+    }
+
+    document.getElementById('resetChat').addEventListener('click', async () => {
+        await fetch('/resetChat', { method: 'POST' });
+        loadHistory();
+    });
+
+
 
     async function loadHistory() {
+        clearChatMessages();
         try {
             const response = await fetch('/history');
             const data = await response.json();
