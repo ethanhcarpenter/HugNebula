@@ -6,28 +6,23 @@ api_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../The AI
 if api_path not in sys.path:
     sys.path.insert(0, api_path)
 
-from chatbot import LocalAIChatbot
+from chatbotHF import HFAIChatbot
+from chatbotFile import FileAIChatbot
 
-# chatbot = LocalAIChatbot(
-#     repo_id="DavidAU/Llama-3.2-8X3B-MOE-Dark-Champion-Instruct-uncensored-abliterated-18.4B-GGUF",
-# 	filename="L3.2-8X3B-MOE-Dark-Champion-Inst-18.4B-uncen-ablit_D_AU-Q4_k_m.gguf",
-# )
-
-# chatbot = LocalAIChatbot(
-#     repo_id="TheBloke/Luna-AI-Llama2-Uncensored-GGUF",
-# 	filename="luna-ai-llama2-uncensored.Q2_K.gguf",
-# )
-# chatbot = LocalAIChatbot(
-#     repo_id="TheBloke/WizardLM-30B-Uncensored-GGUF",
-# 	filename="WizardLM-30B-Uncensored.Q6_K.gguf",
-# )
-chatbot = LocalAIChatbot(
-    repo_id="unsloth/Phi-4-reasoning-plus-GGUF",
-	filename="Phi-4-reasoning-plus-UD-Q6_K_XL.gguf",
-)
+file=1
 
 
-# chatbot = LocalAIChatbot(filename="S:\\WSL\\Ubuntu\\models\\llama2.gguf")
+if file:
+    chatbot = FileAIChatbot(model_path="D:\\WSL\\Ubuntu\\models\\llama2.gguf",n_gpu_layers=-1)
+else:
+    chatbot = HFAIChatbot(
+        repo_id="TheBloke/Luna-AI-Llama2-Uncensored-GGUF",
+        filename="luna-ai-llama2-uncensored.Q2_K.gguf",
+    )
+
+
+
+
 
 
 app = Flask(__name__)

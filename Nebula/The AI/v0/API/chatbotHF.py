@@ -1,7 +1,7 @@
 import os
 from llama_cpp import Llama
 
-class LocalAIChatbot:
+class HFAIChatbot:
     def __init__(self, repo_id, filename, n_ctx=2048, n_gpu_layers=-1):
         self.model = Llama.from_pretrained(
             repo_id=repo_id,
