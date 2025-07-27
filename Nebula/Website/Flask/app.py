@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template,jsonify
+from flask import Flask, Response, stream_with_context, request, render_template,jsonify
 import os
 import sys
 
@@ -13,7 +13,7 @@ file=1
 
 
 if file:
-    chatbot = FileAIChatbot(model_path="D:\\WSL\\Ubuntu\\models\\llama2.gguf",n_gpu_layers=-1)
+    chatbot = FileAIChatbot(model_path="D:\\WSL\\Ubuntu\\models\\llama2.gguf",n_gpu_layers=0)
 else:
     chatbot = HFAIChatbot(
         repo_id="TheBloke/Luna-AI-Llama2-Uncensored-GGUF",
@@ -66,10 +66,23 @@ def resetChat():
 def sendquery():
     data = request.get_json()
     user_input = data.get("query", "")
-    answer = None
-    if user_input.strip():
-        answer = chatbot.chat(user_input)
-    return {"answer": answer}
+    
+    if not user_input.strip():
+        return {"answer": ""}
+
+    def generate():
+        yield '{"answer":"'
+        for response in chatbot.model.create_completion(
+            prompt=chatbot._build_prompt() + user_input,
+            max_tokens=128,
+            stop=["User:", "AI:"],
+            stream=True
+        ):
+            token = response["choices"][0]["text"]
+            yield token.replace("\\", "\\\\").replace('"', '\\"')  # JSON-safe
+        yield '"}'
+
+    return Response(stream_with_context(generate()), mimetype='application/json')
 
 @app.route("/history",methods=["Get"])
 def getHistory():

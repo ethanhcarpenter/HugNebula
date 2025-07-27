@@ -22,27 +22,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatForm) {
         chatForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-            if (isTyping) return;  // Prevent submit while typing
+            if (isTyping) return;
 
             const userMsg = chatInput.value.trim();
             if (!userMsg) return;
 
             isTyping = true;
-            // Disable only submit button, not input
             chatForm.querySelector('button[type="submit"]').disabled = true;
 
             addMessage(userMsg, 'user');
             chatInput.value = '';
 
-            // Show typing indicator
-            addMessage('Typing...', 'assistant');
+            // Add an empty assistant message to stream into with initial "Thinking"
+            addMessage('Thinking', 'assistant');
+            const assistantMsg = chatMessages.lastChild;
 
-            const removeTyping = () => {
-                const lastMsg = chatMessages.lastChild;
-                if (lastMsg && lastMsg.textContent === 'Typing...') {
-                    chatMessages.removeChild(lastMsg);
-                }
-            };
+            // Start thinking animation
+            let dots = 0;
+            let thinkingInterval = setInterval(() => {
+                dots = (dots + 1) % 4; // 0 to 3 dots
+                assistantMsg.textContent = 'Thinking' + '.'.repeat(dots);
+            }, 500);
 
             try {
                 const response = await fetch('/query', {
@@ -51,19 +51,51 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ query: userMsg })
                 });
 
-                const data = await response.json();
-                removeTyping();
-                addMessage(data.answer[0] || 'No response', 'assistant');
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullText = '';
+                let isFirst = true;
+                let lastChunkTime = performance.now();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const now = performance.now();
+                    const delta = now - lastChunkTime;
+                    lastChunkTime = now;
+
+                    let chunk = decoder.decode(value, { stream: true });
+
+                    if (isFirst) {
+                        clearInterval(thinkingInterval);  // Stop thinking animation on first token
+                        chunk = chunk.replace(/^{"answer":"?/, '');
+                        isFirst = false;
+                    }
+
+                    // Adaptive delay per character based on chunk time
+                    const baseDelay = Math.min(100, Math.max(5, delta / (chunk.length || 1)));
+
+                    for (let char of chunk) {
+                        fullText += char;
+                        assistantMsg.textContent = fullText.replace(/"?\}$/, '');
+                        await new Promise(r => setTimeout(r, baseDelay));
+                    }
+                }
             } catch (error) {
-                removeTyping();
-                addMessage('Error: Could not get response.', 'DEBUG');
+                clearInterval(thinkingInterval);
+                assistantMsg.textContent = 'Error: Could not get response.';
+                assistantMsg.style.background = '#ef4444';
             } finally {
+                clearInterval(thinkingInterval);
                 isTyping = false;
-                // Re-enable submit button only
                 chatForm.querySelector('button[type="submit"]').disabled = false;
             }
         });
     }
+
+
+
 
     function addMessage(text, sender) {
         const msgDiv = document.createElement('div');

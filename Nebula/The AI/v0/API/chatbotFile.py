@@ -15,12 +15,27 @@ class FileAIChatbot:
     def chat(self, user_message, max_tokens=128):
         self.chat_history.append({"role": "user", "content": user_message})
         prompt = self._build_prompt()
-        response = self.model(prompt, max_tokens=max_tokens, stop=["User:", "AI:"])
-        ai_response = response["choices"][0]["text"].strip()
+        full_prompt = prompt + user_message
+
+        response_text = ""
+        for response in self.model.create_completion(
+            prompt=full_prompt,
+            max_tokens=max_tokens,
+            stop=["User:", "AI:"],
+            stream=True
+        ):
+            token = response["choices"][0]["text"]
+            print(token, end="", flush=True)  
+            response_text += token
+
+        ai_response = response_text.strip()
         if ai_response.lower().startswith("ai:"):
             ai_response = ai_response[3:].strip()
+
         self.chat_history.append({"role": "assistant", "content": ai_response})
         return ai_response, prompt
+
+
 
     def _build_prompt(self, history_limit=30):
         prompt = "The following is a conversation between a helpful AI assistant and a user.\n"
